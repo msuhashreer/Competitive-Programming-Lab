@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class Main {
+
+    static int divide(int dividend, int divisor) {
+
+        int low = 0;
+        int high = dividend;
+        int ans = 0;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid * divisor <= dividend) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int dividend = sc.nextInt();
+        int divisor = sc.nextInt();
+        System.out.println(divide(dividend, divisor));
+    }
+}
