@@ -1,0 +1,56 @@
+import java.util.*;
+
+public class Main {
+
+    static void bucketSort(double[] a) {
+        int n = a.length;
+        double[][] bucket = new double[n][n];
+        int[] count = new int[n];
+        for (double x : a) {
+            int index = (int)(x * n);
+            if (index >= n)
+                index = n - 1;
+            bucket[index][count[index]] = x;
+            count[index]++;
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < count[i] - 1; j++) {
+                for (int k = j + 1; k < count[i]; k++) {
+
+                    if (bucket[i][j] > bucket[i][k]) {
+                        double temp = bucket[i][j];
+                        bucket[i][j] = bucket[i][k];
+                        bucket[i][k] = temp;
+                    }
+                }
+            }
+        }
+        int k = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < count[i]; j++) {
+                a[k] = bucket[i][j];
+                k++;
+            }
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        double[] a = new double[n];
+
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextDouble();
+        }
+        bucketSort(a);
+
+        for (double x : a) {
+            if (x == (int)x)
+                System.out.print((int)x + " ");
+            else
+                System.out.printf("%.2f ", x);
+        }
+        sc.close();
+    }
+}
