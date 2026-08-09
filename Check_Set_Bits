@@ -1,0 +1,17 @@
+import java.util.*;
+public class Main {
+    static int countBits(long n) {
+        int count = 0;
+        while (n > 0) {
+            count = count + (int)(n % 2);
+            n = n / 2;
+        }
+        return count;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+        System.out.println(countBits(n));
+        sc.close();
+    }
+}
