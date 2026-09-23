@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    static String abbreviation(String word) {
+        String result = "";
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (Character.isUpperCase(ch)) {
+                result = result + ch;
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.nextLine();
+        String line = sc.nextLine();
+        String pattern = sc.nextLine();
+        String[] words = line.split(",");
+        ArrayList<String> answer = new ArrayList<>();
+        for (String word : words) {
+            String abbr = abbreviation(word);
+            if (abbr.startsWith(pattern)) {
+                answer.add(word);
+            }
+        }
+        Collections.sort(answer, (a, b) -> {
+            String abbrA = abbreviation(a);
+            String abbrB = abbreviation(b);
+            if (!abbrA.equals(abbrB)) {
+                return abbrA.compareTo(abbrB);
+            }
+            return a.compareTo(b);
+        });
+        if (answer.size() == 0) {
+            System.out.println("No match found");
+        } else {
+            for (String word : answer) {
+                System.out.println(word);
+            }
+        }
+    }
+}
