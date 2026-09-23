@@ -1,0 +1,23 @@
+import java.util.*;
+
+public class Main {
+    static String findBorder(String s) {
+        for (int i = s.length() - 1; i > 0; i--) {
+            String prefix = s.substring(0, i);
+            String suffix = s.substring(s.length() - i);
+            if (prefix.equals(suffix)) {
+                return prefix;
+            }
+        }
+        return "";
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        String answer = findBorder(s);
+        if (answer.length() == 0)
+            System.out.println("No border");
+        else
+            System.out.println(answer);
+    }
+}
