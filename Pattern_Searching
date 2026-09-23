@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class Main {
+
+    static void search(String pat, String txt) {
+
+        // Join pattern and text
+        String s = pat + "$" + txt;
+        int n = s.length();
+        int m = pat.length();
+        // Z array
+        int[] z = new int[n];
+        int left = 0;
+        int right = 0;
+        // Check every position
+        for (int i = 1; i < n; i++) {
+            // Use previous matching information
+            if (i <= right) {
+                z[i] = Math.min(right - i + 1, z[i - left]);
+            }
+            // Compare characters
+            while (i + z[i] < n &&
+                   s.charAt(z[i]) == s.charAt(i + z[i])) {
+                z[i]++;
+            }
+            // Update left and right
+            if (i + z[i] - 1 > right) {
+                left = i;
+                right = i + z[i] - 1;
+            }
+            // Pattern completely matched
+            if (z[i] == m) {
+                System.out.println(i - m - 1);
+            }
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String txt = sc.nextLine();
+        String pat = sc.nextLine();
+        search(pat, txt);
+    }
+}
