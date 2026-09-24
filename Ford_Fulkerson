@@ -1,0 +1,74 @@
+import java.util.*;
+
+public class Main {
+
+    static int V;
+    static boolean findPath(int[][] graph, boolean[] visited, int[] parent, int current, int sink) {
+
+        visited[current] = true;
+        if (current == sink)
+            return true;
+        for (int i = 0; i < V; i++) {
+            if (!visited[i] && graph[current][i] > 0) {
+                parent[i] = current;
+                if (findPath(graph, visited, parent, i, sink))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int E;
+        V = sc.nextInt();
+        E = sc.nextInt();
+        int[][] graph = new int[V][V];
+
+        // Read edges
+        for (int i = 0; i < E; i++) {
+
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int capacity = sc.nextInt();
+
+            graph[u][v] += capacity;
+        }
+
+        int source = 0;
+        int sink = V - 1;
+        int maxFlow = 0;
+        int[] parent = new int[V];
+
+        while (true) {
+            boolean[] visited = new boolean[V];
+            Arrays.fill(parent, -1);
+            // Find a path
+            if (!findPath(graph, visited, parent, source, sink))
+                break;
+            // Find minimum capacity in the path
+            int flow = Integer.MAX_VALUE;
+            int current = sink;
+
+            while (current != source) {
+                int previous = parent[current];
+                flow = Math.min(flow, graph[previous][current]);
+                current = previous;
+            }
+
+            // Update the graph
+            current = sink;
+
+            while (current != source) {
+                int previous = parent[current];
+                graph[previous][current] -= flow;
+                graph[current][previous] += flow;
+                current = previous;
+            }
+
+            maxFlow += flow;
+        }
+        System.out.println(maxFlow);
+        sc.close();
+    }
+}
